@@ -27,13 +27,23 @@ while(newPosition < WinningPosition) {
     else if(RandomPlayValue == 1) {
         console.log(`got ladder`);
         newPosition += RandomDieValue;
+        if(newPosition > 100) {
+            newPosition -= RandomDieValue;	
+        }
     }
     else if(RandomPlayValue == 2) {
         console.log(`snake attack`);
-        newPosition -= RandomDieValue;	
+        newPosition -= RandomDieValue;
+        if(newPosition < 0) {
+            newPosition = 0;
+        }
     }
 
     console.log(`new position is : ${newPosition}`);
+    if(newPosition == 100) {
+        console.log("congratulations player reached to winning position");
+        console.log("Game ended");
+    }
 }
 
 
