@@ -3,6 +3,7 @@ const WinningPosition = 100;
 let newPosition = startPosition;
 var RandomDieValue = 0;
 var RandomPlayValue = 0;
+var diceRollCount=0;
 
 console.log(`\n ****** Welcome to snake and ladder game ******\n`);
 console.log(`Start position is ${startPosition}`);
@@ -11,7 +12,8 @@ console.log(`Winning position is ${WinningPosition} \n`);
 console.log(`after rolling die ->`);
 
 while(newPosition < WinningPosition) {
-
+    diceRollCount++;
+    console.log(`dice count is: ${+diceRollCount}`);
     getRandomDieValue = () => randomCheck = Math.floor(Math.random() * 6) + 1;
     var RandomDieValue = getRandomDieValue();
     console.log(`die value is: ${RandomDieValue}`);
@@ -43,7 +45,6 @@ while(newPosition < WinningPosition) {
     if(newPosition == 100) {
         console.log("congratulations player reached to winning position");
         console.log("Game ended");
+        diceRollCount=0;
     }
 }
-
-
