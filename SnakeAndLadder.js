@@ -4,6 +4,8 @@ let newPosition = startPosition;
 var RandomDieValue = 0;
 var RandomPlayValue = 0;
 var diceRollCount=0;
+var player1Position=0;
+var player2Position=0;
 
 console.log(`\n ****** Welcome to snake and ladder game ******\n`);
 console.log(`Start position is ${startPosition}`);
@@ -11,40 +13,49 @@ console.log(`Winning position is ${WinningPosition} \n`);
 
 console.log(`after rolling die ->`);
 
+getRandomPlayValue = () => Math.floor(Math.random() * 3);
+
+getRandomDieValue = () => Math.floor(Math.random() * 6) + 1;
+
 while(newPosition < WinningPosition) {
-    diceRollCount++;
-    console.log(`dice count is: ${+diceRollCount}`);
-    getRandomDieValue = () => randomCheck = Math.floor(Math.random() * 6) + 1;
+    ++diceRollCount;
+    console.log(`dice count is: ${diceRollCount}`);
+
     var RandomDieValue = getRandomDieValue();
     console.log(`die value is: ${RandomDieValue}`);
 
-    getRandomPlayValue = () => randomCheck = Math.floor(Math.random() * 3);
     var RandomPlayValue = getRandomPlayValue();
-    console.log(`play value is : ${RandomPlayValue}`);
+    switch(RandomPlayValue) {
 
-    if(RandomPlayValue == 0) {
-        console.log(`no play`);
-        newPosition = newPosition;
-    }
-    else if(RandomPlayValue == 1) {
-        console.log(`got ladder`);
-        newPosition += RandomDieValue;
-        if(newPosition > 100) {
-            newPosition -= RandomDieValue;	
-        }
-    }
-    else if(RandomPlayValue == 2) {
-        console.log(`snake attack`);
-        newPosition -= RandomDieValue;
-        if(newPosition < 0) {
-            newPosition = 0;
-        }
-    }
+        case 0:
+            console.log(`no play`);
+            newPosition = newPosition;
+            break;
 
-    console.log(`new position is : ${newPosition}`);
-    if(newPosition == 100) {
-        console.log("congratulations player reached to winning position");
-        console.log("Game ended");
-        diceRollCount=0;
-    }
+        case 1:
+            console.log(`got ladder`);
+            newPosition += RandomDieValue;
+            if(newPosition > WinningPosition) {
+                newPosition -= RandomDieValue;	
+            }
+            break;
+
+        case 2:
+            console.log(`snake attack`);
+            newPosition -= RandomDieValue;
+            if(newPosition < startPosition) {
+                newPosition = startPosition;
+            }
+            break;
+            
+            default:    
+            console.log(`Something went wrong !!`);
+        }
+
+        console.log(`new position is : ${newPosition} \n`);
+        if (newPosition == 100) {
+            console.log("congratulations player reached to winning position");
+            console.log("====== Game ended =====");
+            diceRollCount = 0;
+        }
 }
