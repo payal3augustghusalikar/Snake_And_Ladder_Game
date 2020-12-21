@@ -19,86 +19,66 @@ getRandomPlayValue = () => Math.floor(Math.random() * 3);
 getRandomDieValue = () => Math.floor(Math.random() * 6) + 1;
 
 
+playGame = (playerPosition) => {
 
- PlayGame = (playerPosition) => {
-   // while(newPosition < WinningPosition) {
+    var newPosition = playerPosition;
+    ++diceRollCount;
+    console.log(`dice count is: ${diceRollCount}`);
 
-var newPosition = playerPosition;
-        ++diceRollCount;
-        console.log(`dice count is: ${diceRollCount}`);
+    var randomDieValue = getRandomDieValue();
+    console.log(`die value is: ${randomDieValue}`);
 
-        var RandomDieValue = getRandomDieValue();
-        console.log(`die value is: ${RandomDieValue}`);
+    var randomPlayValue = getRandomPlayValue();
+    switch(randomPlayValue) {
 
-        var RandomPlayValue = getRandomPlayValue();
-        switch(RandomPlayValue) {
+        case 0:
+            console.log(`no play`);
+            newPosition = newPosition;
+            break;
 
-            case 0:
-                console.log(`no play`);
-                 newPosition = newPosition;
-                break;
-
-            case 1:
-                console.log(`got ladder`);
-                newPosition = RandomDieValue + PlayGame(newPosition);
-                if(newPosition > WinningPosition) {
-                    newPosition -= RandomDieValue;	
-                }
-                break;
-
-            case 2:
-                console.log(`snake attack`);
-                newPosition -= RandomDieValue;
-                if(newPosition < startPosition) {
-                    newPosition = startPosition;
-                }
-                break;
-
-                default:    
-                console.log(`Something went wrong !!`);
+        case 1:
+            console.log(`####### got ladder`);
+            newPosition = randomDieValue + playGame(newPosition);
+            if(newPosition > WinningPosition) {
+                newPosition -= randomDieValue;	
             }
+            break;
 
-           // console.log(`new position is : ${newPosition} \n`);
-            // if (newPosition == 100) {
-            //     console.log("congratulations player reached to winning position");
-            //     console.log("====== Game ended =====");
-               
-                return newPosition;
+        case 2:
+            console.log(`~~~~~~~< snake attack !!!`);
+            newPosition -= randomDieValue;
+            if(newPosition < startPosition) {
+                newPosition = startPosition;
             }
+            break;
+
+        default:    
+        console.log(`Something went wrong !!`);
+    }     
+    return newPosition;
+}
     
-//}
 while(player1Position <= WinningPosition || player2Position <= WinningPosition) {
-var playerPosition = player1Position;
-var player1Position = PlayGame(playerPosition);
-console.log(`player 1 position is ${player1Position} \n`)
 
-if(player1Position == WinningPosition ) {
-    console.log(`player 1 is winner`);
-    diceRollCount = 0;
-    break;
+    var playerPosition = player1Position;
+    var player1Position = playGame(playerPosition);
+    console.log(`player 1 position is ${player1Position} \n`)
+
+    if(player1Position == WinningPosition ) {
+        console.log(`player 1 is winner`);
+        diceRollCount = 0;
+        break;
     }
 
+    
+    var playerPosition = player2Position;
+    var player2Position = playGame(playerPosition);
+    console.log(`player 2 position is ${player2Position} \n `)
 
-var playerPosition = player2Position;
-var player2Position = PlayGame(playerPosition);
-console.log(`player 2 position is ${player2Position} \n `)
+    if(player2Position == WinningPosition ) {
 
-
-if(player2Position == WinningPosition ) {
-
-    console.log(`player 2 is winner`);
-    diceRollCount = 0;
-    break;
-    }
-
-
-// if(player1Position == WinningPosition ) {
-// console.log(`player 1 is winner`);
-// diceRollCount = 0;
-// }
-// else if(player2Position == WinningPosition ) {
-
-// console.log(`player 2 is winner`);
-// diceRollCount = 0;
-// }
+        console.log(`player 2 is winner`);
+        diceRollCount = 0;
+        break;
+    } 
 }
