@@ -17,7 +17,10 @@ console.log(`after rolling die ->`);
 /**
 * @description gets random value for play option
 */
-getRandomPlayValue = () => Math.floor(Math.random() * 3);
+getRandomPlayValue = () => {
+    var checkOption = Math.floor(Math.random() * 3);
+    return (checkOption == 0) ? "No Play" : (checkOption == 1) ? "Got Ladder" : "Got Snake"
+}
 
 /**
    * @description gets random value for dice
@@ -32,6 +35,23 @@ getSnake = (newPosition, randomDieValue) => {
     }
 }
 
+getLadder = (newPosition, callback) => {
+    console.log(`####### got ladder`);
+    if (newPosition < WINNING_POSITION) {
+        return callback(newPosition)
+    }
+    console.log(`roll the dice again!!`)
+}
+
+// checkLadderValue = (newPosition, randomDieValue) => {
+//     newPosition += randomDieValue;
+//     if (newPosition > WINNING_POSITION) {
+//         newPosition -= randomDieValue;
+//     }
+//     getLadder(newPosition, playGame)
+//     return newPosition;
+// }
+
 /**
     * @description gets dice count
     */
@@ -40,22 +60,27 @@ getDiceCount = () => {
     console.log(`dice count is: ${diceRollCount}`);
 }
 
+/**
+    * @description gets play option and calling respctive function
+    */
 getPlayOption = (randomPlayValue, randomDieValue, newPosition) => {
     switch (randomPlayValue) {
-        case 0:
-            console.log(`no play`);
+        case "No Play":
+            // console.log(`no play`);
             newPosition = newPosition;
             break;
-        case 1:
-            console.log(`####### got ladder`);
-            console.log(`roll the dice again!!`)
-            newPosition = randomDieValue + playGame(newPosition);
+        case "Got Ladder":
+            newPosition += randomDieValue;
             if (newPosition > WINNING_POSITION) {
                 newPosition -= randomDieValue;
             }
+            getLadder(newPosition, playGame)
+            // checkLadderValue(newPosition, randomDieValue)
             break;
-        case 2:
-            getSnake(newPosition, randomDieValue);
+        case "Got Snake":
+            if (newPosition < WINNING_POSITION) {
+                getSnake(newPosition, randomDieValue);
+            }
             break;
         default:
             console.log(`Something went wrong !!`);
@@ -85,11 +110,9 @@ while (player1Position <= WINNING_POSITION || player2Position <= WINNING_POSITIO
     var player1Position = playGame(playerPosition);
     console.log(`player 1 position is ${player1Position} \n`)
 
-    /**
-     * @description checks player reched to winning position if true then make dice roll count to zero
-     */
+    // checks if playaer1Position reached to winning position
     if (player1Position == WINNING_POSITION) {
-        console.log(`Hurray!!!! player 1 is winner`);
+        console.log(`****** Hurray!!!! player 1 is winner ******`);
         diceRollCount = 0;
         break;
     }
@@ -98,12 +121,9 @@ while (player1Position <= WINNING_POSITION || player2Position <= WINNING_POSITIO
     var player2Position = playGame(playerPosition);
     console.log(` player 2 position is ${player2Position} \n `)
 
-
-    /**
-     * @description checks player reched to winning position if true then make dice roll count to zero
-     */
+    // checks if playaer2Position reached to winning position
     if (player2Position == WINNING_POSITION) {
-        console.log(`Hurray!!!! player 2 is winner`);
+        console.log(`****** Hurray!!!! player 2 is winner ******`);
         diceRollCount = 0;
         break;
     }
